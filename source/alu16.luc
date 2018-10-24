@@ -1,12 +1,12 @@
 module alu16 (
-    input a[16],  // clock
-    input b[16],  // reset
-    input alufn[6],
+    input a[16],  // input a
+    input b[16],  // input b
+    input alufn[6], // control code alufn
     
-    output out[16],
-    output z,
-    output v, 
-    output n
+    output out[16], // output
+    output z, // z 
+    output v, // v 
+    output n  // n
   ) {
 
   // instantiate module
@@ -16,7 +16,7 @@ module alu16 (
   shift16 shift;
   
   always {
-    // assign all value
+    // assign all value for inputs and outputs
     add.a = a;
     add.b = b;
     add.alufn = alufn;
@@ -47,10 +47,10 @@ module alu16 (
         b11: //comparator16
            out = comp.comp;
         default: 
-          out = 0;
+          out = 0; // set default to 0
         }
-     z = add.z;
-     v = add.v;
-     n = add.n;
+     z = add.z; // z from adder
+     v = add.v; // v from adder
+     n = add.n; // n from adder
 }
 }

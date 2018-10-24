@@ -1,23 +1,23 @@
 module boole16 (
-    input alufn[6],  // clock
-    input a[16],  // reset
-    input b[16],
-    output boole[16]
+    input alufn[6],  // input from alufn
+    input a[16],  // input a
+    input b[16], // input b
+    output boole[16] // output of the boolean operation
   ) {
 
   always {
     case(alufn[3:0])
     {
-      b1000:
+      b1000: // and case
         boole = a & b;
       
-      b1110:
+      b1110: // or case
         boole = a | b;
       
-      b0110:
+      b0110: // xor case
         boole = a ^ b;
       
-      b1010:
+      b1010: // a case
         boole = a;
         
       default:

@@ -1,0 +1,22 @@
+module storeab (
+    input clk,
+    input btna,
+    input btnb,
+    input switches[16],
+    output geta[16],
+    output getb[16]
+  ) {
+  
+  button_conditioner button_condA(.clk(clk), .in(btna));
+  button_conditioner button_condB(.clk(clk), .in(btnb));
+  
+  dff storeA[16](.clk(button_condA.out));
+  dff storeB[16](.clk(button_condB.out));
+  
+  always {
+    storeA.d = switches;
+    storeB.d = switches;
+    geta = storeA.q;
+    getb = storeB.q;
+  }
+}

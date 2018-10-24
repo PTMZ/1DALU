@@ -8,6 +8,7 @@
     <src>alu16.luc</src>
     <src>boole16.luc</src>
     <ucf lib="true">mojo.ucf</ucf>
+    <ucf lib="true">io_shield.ucf</ucf>
     <component>reset_conditioner.luc</component>
   </files>
 </project>

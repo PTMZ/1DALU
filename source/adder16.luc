@@ -9,6 +9,7 @@ module adder16 (
   ) {
   
   sig tmp[16]; // tmp signal for access to do computation of v n and z
+  sig comp[16]; // tmp signal for access to do computation of v n and z
   
   always {
     case(alufn[0]) // using the alufn0 value to choose
@@ -21,14 +22,16 @@ module adder16 (
       
       default:
         tmp = a + b; // default to addition
-  }
+    }
+    comp = a - b;
     
-  v = (a[15] & b[15] & ~tmp[15]) | (~a[15] & ~b[15] & tmp[15]); // calculate v
-  
-  n = tmp[15]; // calculate n 
-  
-  z = ~|tmp; // calculate z
-  
-  s = tmp; // output the s
-}
+    // v = (a[15] & b[15] & ~over[15]) | (~a[15] & ~b[15] & over[15]); // calculate v
+    v = (a[15] & ~b[15] & (~comp[15])) | ((~a[15])&(b[15])&comp[15]);
+    
+    n = comp[15]; // calculate n 
+    
+    z = ~|comp; // calculate z
+    
+    s = tmp; // output the s
+  }
 }

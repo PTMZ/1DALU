@@ -6,16 +6,27 @@ module storeab (
     output geta[16],
     output getb[16]
   ) {
-  
+
+  edge_detector eda(#RISE(1), #FALL(0));
+  edge_detector edb(#RISE(1), #FALL(0));
+  eda.clk = clk;
+  edb.clk = clk;
+
   button_conditioner button_condA(.clk(clk), .in(btna));
   button_conditioner button_condB(.clk(clk), .in(btnb));
-  
-  dff storeA[16](.clk(button_condA.out));
-  dff storeB[16](.clk(button_condB.out));
-  
+
+  dff storeA[16](.clk(clk));
+  dff storeB[16](.clk(clk));
+
   always {
-    storeA.d = switches;
-    storeB.d = switches;
+    eda.in = button_condA.out;
+    edb.in = button_condB.out;
+    if(eda.out){
+        storeA.d = switches;
+    }
+    if(edb.out){
+        storeB.d = switches;
+    }
     geta = storeA.q;
     getb = storeB.q;
   }

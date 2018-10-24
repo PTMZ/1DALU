@@ -1,0 +1,27 @@
+module boole16 (
+    input alufn[6],  // clock
+    input a[16],  // reset
+    input b[16],
+    output boole[16]
+  ) {
+
+  always {
+    case(alufn[3:0])
+    {
+      b1000:
+        boole = a & b;
+      
+      b1110:
+        boole = a | b;
+      
+      b0110:
+        boole = a ^ b;
+      
+      b1010:
+        boole = a;
+        
+      default:
+        boole = 0;
+  }
+}
+}

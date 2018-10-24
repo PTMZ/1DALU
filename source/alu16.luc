@@ -1,0 +1,56 @@
+module alu16 (
+    input a[16],  // clock
+    input b[16],  // reset
+    input alufn[6],
+    
+    output out[16],
+    output z,
+    output v, 
+    output n
+  ) {
+
+  // instantiate module
+  adder16 add;
+  boole16 boole;
+  comparator16 comp;
+  shift16 shift;
+  
+  always {
+    // assign all value
+    add.a = a;
+    add.b = b;
+    add.alufn = alufn;
+    
+    boole.a = a;
+    boole.b = b;
+    boole.alufn = alufn;
+    
+    comp.alufn = alufn;
+    comp.z = add.z;
+    comp.v = add.v;
+    comp.n = add.n;
+    
+    shift.alufn = alufn;
+    shift.a = a;
+    shift.b = b;
+    
+   
+    
+    case(alufn[5:4])
+      {
+        b00: // adder16
+          out = add.s;
+        b01: // boole16
+          out = boole.boole;
+        b10: //shift16
+          out = shift.shift;
+        b11: //comparator16
+           out = comp.comp;
+        default: 
+          out = 0;
+        }
+     z = add.z;
+     v = add.v;
+     n = add.n;
+}
+}

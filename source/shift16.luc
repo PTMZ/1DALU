@@ -1,0 +1,24 @@
+module shift16 (
+    input alufn[6],  // clock
+    input a[16],  // reset
+    input b[16],
+    output shift[16]
+  ) {
+
+  always {
+    case(alufn[1:0])
+     {
+       b00: // shift left
+         shift = a << b;
+        
+       b01: // shift right
+         shift = a >> b;
+      
+       b11: // shift right arithmetic
+         shift = a >>> b;
+      
+       default: // set to be a
+         shift = a;
+    }
+  }
+}

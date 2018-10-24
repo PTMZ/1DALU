@@ -1,0 +1,34 @@
+module adder16 (
+    input a[16],  // first input an array of 16bit
+    input b[16],  // second input an array of 16bit
+    input alufn[6], // control input
+    output s[16], // output of the sum
+    output z, // output z
+    output v, // output v
+    output n // output n
+  ) {
+  
+  sig tmp[16]; // tmp signal for access to do computation of v n and z
+  
+  always {
+    case(alufn[0]) // using the alufn0 value to choose
+    {
+      b0:
+        tmp = a + b; // if alufn0 is 0 do addition
+      
+      b1:
+        tmp = a - b;  // if alufn0 is 1 do subtraction
+      
+      default:
+        tmp = a + b; // default to addition
+  }
+    
+  v = (a[15] & b[15] & ~tmp[15]) | (~a[15] & ~b[15] & tmp[15]); // calculate v
+  
+  n = tmp[15]; // calculate n 
+  
+  z = ~|tmp; // calculate z
+  
+  s = tmp; // output the s
+}
+}

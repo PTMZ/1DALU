@@ -1,8 +1,8 @@
 module shift16 (
-    input alufn[6],  // clock
-    input a[16],  // reset
-    input b[16],
-    output shift[16]
+    input alufn[6],  // control pin input ALUFN
+    input a[16],  // Input A
+    input b[16], // Input B or amount to shift
+    output shift[16] // output for the shifted value
   ) {
 
   always {
@@ -15,7 +15,7 @@ module shift16 (
          shift = a >> b;
       
        b11: // shift right arithmetic
-         shift = a >>> b;
+         shift = $signed(a) >>> b;
       
        default: // set to be a
          shift = a;

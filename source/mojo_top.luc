@@ -99,6 +99,6 @@ module mojo_top (
     alu.b = sab.getb; // connect the stored B values to the ALU B
     alu.alufn = io_dip[2][5:0]; // seht ALUFN to be the 6 bit of the first set of dip switches
     
-    io_led[2] = 0;   // set left set of io_led to 0 as it is unused
+    io_led[2] = io_dip[2][5:0]; // set left set of io_led to display the alufn code
   }    
 }

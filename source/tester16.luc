@@ -1,0 +1,78 @@
+module tester16 (
+    input clk,
+    input rst,
+    output out[4][4]
+  ) {
+    
+// instantiate the alu to check its output against test case
+    const CLKSPEED = 26; // speed of update for 26 is approx 1.34s
+    dff counter[CLKSPEED](.clk(clk), .rst(rst)); // create counter as clk
+  
+    alu16 alu; // instantiate alu for checking logic of program against predefined assertions
+
+    .clk(counter.q[CLKSPEED-1]){ //set fsm speed to counter
+    fsm state(.rst(rst)) = {ADD, SUB, AND, OR, XOR, A, SHL, SHR, SRA, CMPEQ, CMPLT, CMPLE, ERR}; // create states for testing each of the fsm.
+    }
+ 
+  always {
+    // to increment counter
+    counter.d = counter.q + 1;
+    
+    // Test cases
+    case(state.q){
+      //all test cases output format is 4 numbers to the 7seg, XXYY
+      // XX refers to the test case, 01 for ADD, 02 for SUB and so on ....
+      // YY refers to the results of the test, 11 for pass and 00 for fail
+      // addition test
+      
+      //Check add
+      state.ADD:
+        alu.alufn = 000000; // set proper alufn to input to alu
+        alu.a = 16b1; // set a value for test
+        alu.b = 16b11; // set b value for test
+        if (alu.out == 16b100){ // assertion set correct value for output of a op b
+          out = {4d0,4d1,4d1,4d1}; //{testdigit1, testdigit2, 1, 1} pass case
+          }
+        else {
+          out = {4d0,4d1,4d0,4d0}; //{testdigit1, testdigit2, 0, 0} fail case
+          }
+        state.d = state.SUB; // move to next test case
+        
+       
+       state.SUB:
+        alu.alufn = 000001;
+        alu.a = 16b11;
+        alu.b = 16b11;
+
+        if (alu.out == 16b0){
+          out = {4d0,4d2,4d1,4d1};
+          }
+        else {
+          out = {4d0,4d2,4d0,4d0};
+          }
+        state.d = state.AND;
+       
+        
+       state.AND:
+        alu.alufn = 011000;
+        alu.a = 16b1;
+        alu.b = 16b11;
+        if (alu.out == 16b1){
+          out = {4d0,4d3,4d1,4d1};
+          }
+        else {
+          out = {4d0,4d3,4d0,4d0};
+          }
+        state.d = state.ADD;
+        
+        //TODO add all relevant states
+         
+      default:
+        state.d = state.ADD;
+        out = {4d0,4d0,4d0,4d0};
+        alu.a =0;
+        alu.b=0;
+        alu.alufn=0;        
+}
+}
+}

@@ -1,6 +1,7 @@
 module tester16 (
     input clk,
     input rst,
+    input pause,
     output out[4][4]
   ) {
 
@@ -36,7 +37,9 @@ module tester16 (
         else {
           out = {4d0,4d1,4d0,4d0}; //{testdigit1, testdigit2, 0, 0} fail case
           }
-        state.d = state.ADD_OVR; // move to next test case
+        if(pause == 0){
+          state.d = state.ADD_OVR; // move to next test case
+        }
 
       state.ADD_OVR:
         alu.alufn = 000000; // set proper alufn to input to alu
@@ -48,7 +51,9 @@ module tester16 (
         else {
           out = {4d0,4d2,4d0,4d0}; //{testdigit1, testdigit2, 0, 0} fail case
         }
-        state.d = state.SUB; // move to next test case
+        if(pause == 0){
+          state.d = state.SUB; // move to next test case
+        }
 
 
       state.SUB:
@@ -62,7 +67,9 @@ module tester16 (
         else {
           out = {4d0,4d3,4d0,4d0};
         }
-        state.d = state.AND;
+        if(pause == 0){
+          state.d = state.AND;
+        }
 
 
       state.AND:
@@ -75,7 +82,9 @@ module tester16 (
         else {
           out = {4d0,4d4,4d0,4d0};
         }
-        state.d = state.OR;
+        if(pause == 0){
+          state.d = state.OR;
+        }
 
       state.OR:
         alu.alufn = 011110;
@@ -87,7 +96,9 @@ module tester16 (
         else {
           out = {4d0,4d5,4d0,4d0};
         }
-        state.d = state.XOR;
+        if(pause == 0){
+          state.d = state.XOR;
+        }
 
       state.XOR:
         alu.alufn = 010110;
@@ -99,7 +110,9 @@ module tester16 (
         else {
           out = {4d0,4d6,4d0,4d0};
         }
-        state.d = state.XOR;
+        if(pause == 0){
+          state.d = state.XOR;
+        }
 
       state.XOR:
         alu.alufn = 010110;
@@ -111,7 +124,9 @@ module tester16 (
         else {
           out = {4d0,4d6,4d0,4d0};
         }
-        state.d = state.A;
+        if(pause == 0){
+          state.d = state.A;
+        }
 
       state.A:
         alu.alufn = 011010;
@@ -123,7 +138,9 @@ module tester16 (
         else {
           out = {4d0,4d7,4d0,4d0};
         }
-        state.d = state.CMPEQ;
+        if(pause == 0){
+          state.d = state.CMPEQ;
+        }
 
       state.CMPEQ:
         alu.alufn = 110010;
@@ -135,7 +152,9 @@ module tester16 (
         else {
           out = {4d0,4d8,4d0,4d0};
         }
-        state.d = state.CMPLT;
+        if(pause == 0){
+          state.d = state.CMPLT;
+        }
 
       state.CMPLT:
         alu.alufn = 110100;
@@ -147,7 +166,9 @@ module tester16 (
         else {
           out = {4d0,4d8,4d0,4d0};
         }
-        state.d = state.CMPLE;
+        if(pause == 0){
+          state.d = state.CMPLE;
+        }
 
       state.CMPLE:
         alu.alufn = 110110;
@@ -159,7 +180,9 @@ module tester16 (
         else {
           out = {4d0,4d9,4d0,4d0};
         }
-        state.d = state.SHL;
+        if(pause == 0){
+          state.d = state.SHL;
+        }
 
       state.SHL:
         alu.alufn = 100000;
@@ -171,7 +194,9 @@ module tester16 (
         else {
           out = {4d1,4d0,4d0,4d0};
         }
-        state.d = state.SHR;
+        if(pause == 0){
+          state.d = state.SHR;
+        }
 
       state.SHR:
         alu.alufn = 100001;
@@ -183,7 +208,9 @@ module tester16 (
         else {
           out = {4d1,4d1,4d0,4d0};
         }
-        state.d = state.SRA;
+        if(pause == 0){
+          state.d = state.SRA;
+        }
 
       state.SRA:
         alu.alufn = 100011;
@@ -195,7 +222,9 @@ module tester16 (
         else {
           out = {4d1,4d2,4d0,4d0};
         }
-        state.d = state.END;
+        if(pause == 0){
+          state.d = state.END;
+        }
 
       state.END:
         out = {4d9,4d9,4d9,4d9};

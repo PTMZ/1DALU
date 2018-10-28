@@ -45,7 +45,7 @@ module tester16 (
         alu.alufn = 6b000000; // set proper alufn to input to alu
         alu.a = 16b0100000000000000; // set a value for test
         alu.b = 16b0100000000000000; // set b value for test
-        if (alu.v == 1){ // assertion set correct value for output of a op b
+        if (alu.overflow == 1){ // assertion set correct value for output of a op b
           out = {4d0,4d2,4d1,4d1}; //{testdigit1, testdigit2, 1, 1} pass case
         }
         else {

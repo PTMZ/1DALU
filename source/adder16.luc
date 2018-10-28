@@ -5,7 +5,8 @@ module adder16 (
     output s[16], // output of the sum
     output z, // output z
     output v, // output v
-    output n // output n
+    output n, // output n
+    output overflow
   ) {
 
   sig tmp[16]; // tmp signal for access to do computation of v n and z
@@ -25,8 +26,8 @@ module adder16 (
     }
     comp = a - b;
 
-    v = (a[15] & b[15] & ~comp[15]) | (~a[15] & ~b[15] & comp[15]); // calculate v
-    // v = (a[15] & ~b[15] & (~comp[15])) | ((~a[15])&(b[15])&comp[15]);
+    overflow = (a[15] & b[15] & ~tmp[15]) | (~a[15] & ~b[15] & tmp[15]); // calculate v
+    v = (a[15] & ~b[15] & (~comp[15])) | ((~a[15])&(b[15])&comp[15]);
 
     n = comp[15]; // calculate n
 

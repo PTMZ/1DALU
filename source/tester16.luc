@@ -13,7 +13,7 @@ module tester16 (
   alu16 alu; // instantiate alu for checking logic of program against predefined assertions
 
   .clk(counter.q[CLKSPEED-1]){ //set fsm speed to counter
-    fsm state(.rst(rst)) = {ADD, ADD_OVR, SUB, SUB_OVR, AND, NAND, OR, NOR, XOR, XNOR, A, SHL, SHR, SRA, CMPEQ, CMPLT, CMPLE, MULTIPLY, MOD, END}; // create states for testing each of the fsm.
+    fsm state(.rst(rst)) = {START, ADD, ADD_OVR, SUB, SUB_OVR, AND, NAND, OR, NOR, XOR, XNOR, A, SHL, SHR, SRA, CMPEQ, CMPLT, CMPLE, MULTIPLY, MOD, END}; // create states for testing each of the fsm.
   }
 
   always {
@@ -26,7 +26,16 @@ module tester16 (
       // XX refers to the test case, 01 for ADD, 02 for SUB and so on ....
       // YY refers to the results of the test, 11 for pass and 00 for fail
       // addition test
-
+      
+      state.START:
+        alu.alufn=0;
+        out = {4d0,4d0,4d0,4d0};
+        alu.a =0;
+        alu.b=0;
+        // at end state use middle button to reset the test from the top
+        if (restarttest == 1) 
+          state.d = state.ADD;
+      
       //Check add
       state.ADD:
         alu.alufn = 6b000000; // set proper alufn to input to alu
@@ -308,7 +317,7 @@ module tester16 (
 
 
       default:
-        state.d = state.ADD;
+        state.d = state.START;
         out = {4d0,4d0,4d0,4d0};
         alu.a =0;
         alu.b=0;

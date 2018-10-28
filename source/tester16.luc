@@ -3,28 +3,28 @@ module tester16 (
     input rst,
     output out[4][4]
   ) {
-    
-// instantiate the alu to check its output against test case
-    const CLKSPEED = 26; // speed of update for 26 is approx 1.34s
-    dff counter[CLKSPEED](.clk(clk), .rst(rst)); // create counter as clk
-  
-    alu16 alu; // instantiate alu for checking logic of program against predefined assertions
 
-    .clk(counter.q[CLKSPEED-1]){ //set fsm speed to counter
-    fsm state(.rst(rst)) = {ADD, SUB, AND, OR, XOR, A, SHL, SHR, SRA, CMPEQ, CMPLT, CMPLE, ERR}; // create states for testing each of the fsm.
-    }
- 
+// instantiate the alu to check its output against test case
+  const CLKSPEED = 26; // speed of update for 26 is approx 1.34s
+  dff counter[CLKSPEED](.clk(clk), .rst(rst)); // create counter as clk
+
+  alu16 alu; // instantiate alu for checking logic of program against predefined assertions
+
+  .clk(counter.q[CLKSPEED-1]){ //set fsm speed to counter
+    fsm state(.rst(rst)) = {ADD, ADD_OVR, SUB, AND, OR, XOR, A, SHL, SHR, SRA, CMPEQ, CMPLT, CMPLE, END}; // create states for testing each of the fsm.
+  }
+
   always {
     // to increment counter
     counter.d = counter.q + 1;
-    
+
     // Test cases
     case(state.q){
       //all test cases output format is 4 numbers to the 7seg, XXYY
       // XX refers to the test case, 01 for ADD, 02 for SUB and so on ....
       // YY refers to the results of the test, 11 for pass and 00 for fail
       // addition test
-      
+
       //Check add
       state.ADD:
         alu.alufn = 000000; // set proper alufn to input to alu
@@ -36,43 +36,177 @@ module tester16 (
         else {
           out = {4d0,4d1,4d0,4d0}; //{testdigit1, testdigit2, 0, 0} fail case
           }
+        state.d = state.ADD_OVR; // move to next test case
+
+      state.ADD_OVR:
+        alu.alufn = 000000; // set proper alufn to input to alu
+        alu.a = 16b0100000000000000; // set a value for test
+        alu.b = 16b0100000000000000; // set b value for test
+        if (alu.v == 1){ // assertion set correct value for output of a op b
+          out = {4d0,4d2,4d1,4d1}; //{testdigit1, testdigit2, 1, 1} pass case
+        }
+        else {
+          out = {4d0,4d2,4d0,4d0}; //{testdigit1, testdigit2, 0, 0} fail case
+        }
         state.d = state.SUB; // move to next test case
-        
-       
-       state.SUB:
+
+
+      state.SUB:
         alu.alufn = 000001;
         alu.a = 16b11;
         alu.b = 16b11;
 
         if (alu.out == 16b0){
-          out = {4d0,4d2,4d1,4d1};
-          }
+          out = {4d0,4d3,4d1,4d1};
+        }
         else {
-          out = {4d0,4d2,4d0,4d0};
-          }
+          out = {4d0,4d3,4d0,4d0};
+        }
         state.d = state.AND;
-       
-        
-       state.AND:
+
+
+      state.AND:
         alu.alufn = 011000;
         alu.a = 16b1;
         alu.b = 16b11;
         if (alu.out == 16b1){
-          out = {4d0,4d3,4d1,4d1};
-          }
+          out = {4d0,4d4,4d1,4d1};
+        }
         else {
-          out = {4d0,4d3,4d0,4d0};
-          }
-        state.d = state.ADD;
-        
-        //TODO add all relevant states
-         
+          out = {4d0,4d4,4d0,4d0};
+        }
+        state.d = state.OR;
+
+      state.OR:
+        alu.alufn = 011110;
+        alu.a = 16b1010;
+        alu.b = 16b1111;
+        if (alu.out == 16b1010){
+          out = {4d0,4d5,4d1,4d1};
+        }
+        else {
+          out = {4d0,4d5,4d0,4d0};
+        }
+        state.d = state.XOR;
+
+      state.XOR:
+        alu.alufn = 010110;
+        alu.a = 16b1010;
+        alu.b = 16b1100;
+        if (alu.out == 16b0110){
+          out = {4d0,4d6,4d1,4d1};
+        }
+        else {
+          out = {4d0,4d6,4d0,4d0};
+        }
+        state.d = state.XOR;
+
+      state.XOR:
+        alu.alufn = 010110;
+        alu.a = 16b1010;
+        alu.b = 16b1100;
+        if (alu.out == 16b0110){
+          out = {4d0,4d6,4d1,4d1};
+        }
+        else {
+          out = {4d0,4d6,4d0,4d0};
+        }
+        state.d = state.A;
+
+      state.A:
+        alu.alufn = 011010;
+        alu.a = 16b1010;
+        alu.b = 16b1100;
+        if (alu.out == 16b1010){
+          out = {4d0,4d7,4d1,4d1};
+        }
+        else {
+          out = {4d0,4d7,4d0,4d0};
+        }
+        state.d = state.CMPEQ;
+
+      state.CMPEQ:
+        alu.alufn = 110010;
+        alu.a = 16b1010;
+        alu.b = 16b1010;
+        if (alu.out == 1){
+          out = {4d0,4d8,4d1,4d1};
+        }
+        else {
+          out = {4d0,4d8,4d0,4d0};
+        }
+        state.d = state.CMPLT;
+
+      state.CMPLT:
+        alu.alufn = 110100;
+        alu.a = 16b1010;
+        alu.b = 16b1010;
+        if (alu.out == 0){
+          out = {4d0,4d8,4d1,4d1};
+        }
+        else {
+          out = {4d0,4d8,4d0,4d0};
+        }
+        state.d = state.CMPLE;
+
+      state.CMPLE:
+        alu.alufn = 110110;
+        alu.a = 16b1010;
+        alu.b = 16b1010;
+        if (alu.out == 1){
+          out = {4d0,4d9,4d1,4d1};
+        }
+        else {
+          out = {4d0,4d9,4d0,4d0};
+        }
+        state.d = state.SHL;
+
+      state.SHL:
+        alu.alufn = 100000;
+        alu.a = 16b1010;
+        alu.b = 16b11; // 3 in decimal
+        if (alu.out == 16b1010000){
+          out = {4d1,4d0,4d1,4d1};
+        }
+        else {
+          out = {4d1,4d0,4d0,4d0};
+        }
+        state.d = state.SHR;
+
+      state.SHR:
+        alu.alufn = 100001;
+        alu.a = 16b1010000;
+        alu.b = 16b11; // 3 in decimal
+        if (alu.out == 16b1010){
+          out = {4d1,4d1,4d1,4d1};
+        }
+        else {
+          out = {4d1,4d1,4d0,4d0};
+        }
+        state.d = state.SRA;
+
+      state.SRA:
+        alu.alufn = 100011;
+        alu.a = 16b1000000000001000;
+        alu.b = 16b11; // 3 in decimal
+        if (alu.out == 16b1111000000000001){
+          out = {4d1,4d2,4d1,4d1};
+        }
+        else {
+          out = {4d1,4d2,4d0,4d0};
+        }
+        state.d = state.END;
+
+      state.END:
+        out = {4d9,4d9,4d9,4d9};
+
+
       default:
         state.d = state.ADD;
         out = {4d0,4d0,4d0,4d0};
         alu.a =0;
         alu.b=0;
-        alu.alufn=0;        
-}
-}
+        alu.alufn=0;
+    }
+  }
 }

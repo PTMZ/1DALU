@@ -58,215 +58,215 @@ module tester16 (
 
 
       state.SUB:
-        alu.alufn = 6b000001;
-        alu.a = 16b11;
-        alu.b = 16b11;
+        alu.alufn = 6b000001;  //OPCODE for subtraction
+        alu.a = 16b11;  //3 represented in binary
+        alu.b = 16b11;  //3 represented in binary
 
-        if (alu.out == 16b0){
-          out = {4d0,4d3,4d1,4d1};
+        if (alu.out == 16b0){  //subtraction of a and b should give 0
+          out = {4d0,4d3,4d1,4d1};  // true case
         }
         else {
-          out = {4d0,4d3,4d0,4d0};
+          out = {4d0,4d3,4d0,4d0};  //false case
         }
         if(pause == 0){
-          state.d = state.SUB_OVR;
+          state.d = state.SUB_OVR;  //next state
         }
 
       state.SUB_OVR:
-        alu.alufn = 000001;
+        alu.alufn = 000001;   //OPCODE for subtraction
         alu.a = 16b1011111111111111;
         alu.b = 16b0100000000000000;
 
         if (alu.out == 16b0111111111111111){
-            out = {4d0,4d4,4d1,4d1};
+            out = {4d0,4d4,4d1,4d1};  //true case
         }
         else {
-            out = {4d0,4d4,4d0,4d0};
+            out = {4d0,4d4,4d0,4d0};  //false case
         }
         if(pause == 0){
-            state.d = state.AND;
+            state.d = state.AND;  //next state
         }
 
       state.AND:
-        alu.alufn = 6b011000;
+        alu.alufn = 6b011000;  //OPCODE for AND
         alu.a = 16b1;
         alu.b = 16b11;
-        if (alu.out == 16b1){
-          out = {4d0,4d5,4d1,4d1};
+        if (alu.out == 16b1){  //should result in 1 iff ith digit of both a and b are 1
+          out = {4d0,4d5,4d1,4d1};  //true case
         }
         else {
-          out = {4d0,4d5,4d0,4d0};
+          out = {4d0,4d5,4d0,4d0};  //false case
         }
         if(pause == 0){
-          state.d = state.NAND;
+          state.d = state.NAND;  //next state
         }
 
       state.NAND:
-        alu.alufn = 6b010111;
+        alu.alufn = 6b010111;  //OPCODE for NAND
         alu.a = 16b0011;
         alu.b = 16b0101;
-        if (alu.out == 16b1111111111111110){
-            out = {4d0,4d6,4d1,4d1};
+        if (alu.out == 16b1111111111111110){ //should result in 1 iff ith digit of both a and b are 0
+            out = {4d0,4d6,4d1,4d1};  //true case
         }
         else {
-            out = {4d0,4d6,4d0,4d0};
+            out = {4d0,4d6,4d0,4d0};  //false case
         }
         if(pause == 0){
-            state.d = state.OR;
+            state.d = state.OR;  //next state
         }
 
       state.OR:
-        alu.alufn = 6b011110;
+        alu.alufn = 6b011110;  //OPCODE for OR
         alu.a = 16b1010;
         alu.b = 16b1111;
-        if (alu.out == 16b1111){
-          out = {4d0,4d7,4d1,4d1};
+        if (alu.out == 16b1111){  //should result in 0 iff ith digit of either a and b are 0, else 1
+          out = {4d0,4d7,4d1,4d1};  //true case
         }
         else {
-          out = {4d0,4d7,4d0,4d0};
+          out = {4d0,4d7,4d0,4d0};  //false case
         }
         if(pause == 0){
-          state.d = state.NOR;
+          state.d = state.NOR;  //next state
         }
 
       state.NOR:
-        alu.alufn = 6b010001;
+        alu.alufn = 6b010001;  //OPCODE for NOR
         alu.a = 16b0011;
         alu.b = 16b0101;
-        if (alu.out == 16b1111111111111000){
-            out = {4d0,4d8,4d1,4d1};
+        if (alu.out == 16b1111111111111000){  //should result in 1 iff ith digit of either a and b are 0, else 0
+            out = {4d0,4d8,4d1,4d1};  //true case
         }
         else {
-            out = {4d0,4d8,4d0,4d0};
+            out = {4d0,4d8,4d0,4d0};  //false case
         }
         if(pause == 0){
             state.d = state.XOR;
         }
 
       state.XOR:
-        alu.alufn = 6b010110;
+        alu.alufn = 6b010110;  //OPCODE for XOR
         alu.a = 16b1010;
         alu.b = 16b1100;
-        if (alu.out == 16b0110){
-          out = {4d0,4d9,4d1,4d1};
+        if (alu.out == 16b0110){  //should result in 1 iff ith digit of a and b are complements
+          out = {4d0,4d9,4d1,4d1};  //true case
         }
         else {
-          out = {4d0,4d9,4d0,4d0};
+          out = {4d0,4d9,4d0,4d0};  //false case
         }
         if(pause == 0){
-          state.d = state.XNOR;
+          state.d = state.XNOR;  //next state
         }
 
       state.XNOR:
-        alu.alufn = 6b011001;
+        alu.alufn = 6b011001;  //OPCODE for XNOR
         alu.a = 16b1010;
         alu.b = 16b1100;
-        if (alu.out == 16b1001){
-            out = {4d1,4d0,4d1,4d1};
+        if (alu.out == 16b1001){  //should result in 0 iff ith digit of a and b are complements
+            out = {4d1,4d0,4d1,4d1};  // true case
         }
         else {
-            out = {4d1,4d0,4d0,4d0};
+            out = {4d1,4d0,4d0,4d0};  //false case
         }
         if(pause == 0){
-            state.d = state.A;
+            state.d = state.A;  //next state
         }
 
       state.A:
-        alu.alufn = 6b011010;
+        alu.alufn = 6b011010;  //OPCODE for LDR
         alu.a = 16b1010;
         alu.b = 16b1100;
         if (alu.out == 16b1010){
-          out = {4d1,4d1,4d1,4d1};
+          out = {4d1,4d1,4d1,4d1};  //true case
         }
         else {
-          out = {4d1,4d1,4d0,4d0};
+          out = {4d1,4d1,4d0,4d0};  //false case
         }
         if(pause == 0){
-          state.d = state.CMPEQ;
+          state.d = state.CMPEQ;  //next state
         }
 
       state.CMPEQ:
-        alu.alufn = 6b110010;
+        alu.alufn = 6b110010;  //OPCODE for CMPEQ
         alu.a = 16b1010;
         alu.b = 16b1010;
-        if (alu.out == 1){
-          out = {4d1,4d2,4d1,4d1};
+        if (alu.out == 1){  //if a and b are equal
+          out = {4d1,4d2,4d1,4d1};  //true case
         }
         else {
-          out = {4d1,4d2,4d0,4d0};
+          out = {4d1,4d2,4d0,4d0};  //false case
         }
         if(pause == 0){
-          state.d = state.CMPLT;
+          state.d = state.CMPLT;  //next state
         }
 
       state.CMPLT:
-        alu.alufn = 6b110100;
+        alu.alufn = 6b110100;  //OPCODE for CMPLT
         alu.a = 16b1010;
         alu.b = 16b1010;
         if (alu.out == 0){
-          out = {4d1,4d3,4d1,4d1};
+          out = {4d1,4d3,4d1,4d1}; //true case
         }
         else {
-          out = {4d1,4d3,4d0,4d0};
+          out = {4d1,4d3,4d0,4d0};  //false case
         }
         if(pause == 0){
-          state.d = state.CMPLE;
+          state.d = state.CMPLE;  //next state
         }
 
       state.CMPLE:
-        alu.alufn = 6b110110;
+        alu.alufn = 6b110110;  //OPCODE for CMPLE
         alu.a = 16b1010;
         alu.b = 16b1010;
         if (alu.out == 1){
-          out = {4d1,4d4,4d1,4d1};
+          out = {4d1,4d4,4d1,4d1};  //true case
         }
         else {
-          out = {4d1,4d4,4d0,4d0};
+          out = {4d1,4d4,4d0,4d0};  //false case
         }
         if(pause == 0){
-          state.d = state.SHL;
+          state.d = state.SHL;  //next state
         }
 
       state.SHL:
-        alu.alufn = 6b100000;
+        alu.alufn = 6b100000;  //OPCODE of SHL
         alu.a = 16b1010;
         alu.b = 16b11; // 3 in decimal
         if (alu.out == 16b1010000){
-          out = {4d1,4d5,4d1,4d1};
+          out = {4d1,4d5,4d1,4d1};  ///true case
         }
         else {
-          out = {4d1,4d5,4d0,4d0};
+          out = {4d1,4d5,4d0,4d0};  //false case
         }
         if(pause == 0){
-          state.d = state.SHR;
+          state.d = state.SHR;  //next state
         }
 
       state.SHR:
-        alu.alufn = 6b100001;
+        alu.alufn = 6b100001;  //OPCODE for SHR
         alu.a = 16b1010000;
         alu.b = 16b11; // 3 in decimal
-        if (alu.out == 16b1010){
-          out = {4d1,4d6,4d1,4d1};
+        if (alu.out == 16b1010){  //result we get when we shift a to the right by b
+          out = {4d1,4d6,4d1,4d1};  //true case
         }
         else {
-          out = {4d1,4d6,4d0,4d0};
+          out = {4d1,4d6,4d0,4d0};  //false case
         }
         if(pause == 0){
-          state.d = state.SRA;
+          state.d = state.SRA;  //next state
         }
 
       state.SRA:
-        alu.alufn = 6b100011;
+        alu.alufn = 6b100011;  //OPCODE for SRA
         alu.a = 16b1000000000001000;
         alu.b = 16b11; // 3 in decimal
-        if (alu.out == 16b1111000000000001){
-          out = {4d1,4d7,4d1,4d1};
+        if (alu.out == 16b1111000000000001){  //result of arithmetic shifting
+          out = {4d1,4d7,4d1,4d1};  //true case
         }
         else {
-          out = {4d1,4d7,4d0,4d0};
+          out = {4d1,4d7,4d0,4d0};  //false case
         }
         if(pause == 0){
-          state.d = state.MULTIPLY;
+          state.d = state.MULTIPLY;  //next state
         }
 
       state.MULTIPLY:
@@ -284,7 +284,7 @@ module tester16 (
         }
 
       state.MOD:
-        alu.alufn = 6b000010;  //OPCODE for mod
+        alu.alufn = 6b000010;  //OPCODE for MOD
         alu.a = 16b0000000000000010; // 2 in decimal
         alu.b = 16b0000000000000100;  // 4 in decimal
         if (alu.out == 16b0000000000000100){  //2%4 = 2 and 2 in binary is 0000000000000010

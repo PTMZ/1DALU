@@ -158,10 +158,10 @@ module tester16 (
         }
 
       state.XNOR:
-        alu.alufn = 6b101001;  //OPCODE for XNOR
+        alu.alufn = 6b011001;  //OPCODE for XNOR
         alu.a = 16b1010;
         alu.b = 16b1100;
-        if (alu.out == 16b1001){  //should result in 0 iff ith digit of a and b are complements
+        if (alu.out == 16b1111111111111001){  //should result in 0 iff ith digit of a and b are complements
             out = {4d1,4d0,4d1,4d1};  // true case
         }
         else {

@@ -13,13 +13,19 @@ module adder16 (
   sig comp[16]; // tmp signal for access to do computation of v n and z
 
   always {
-    case(alufn[0]) // using the alufn0 value to choose
+    case(alufn[1:0]) // using the alufn0 value to choose
     {
-      b0:
-        tmp = a + b; // if alufn0 is 0 do addition
+      b00:
+        tmp = a + b; // if alufn[1:0] is 00 do addition
 
-      b1:
-        tmp = a - b;  // if alufn0 is 1 do subtraction
+      b01:
+        tmp = a - b;  // if alufn[1:0] is 01 do subtraction
+
+      b10:
+        tmp = a*b;    //if alufn[1:0] is 10, do multiplication
+
+      b11:
+        tmp = a-(a/b*b);    //if alufn[1:0] is 11, do modulo
 
       default:
         tmp = a + b; // default to addition

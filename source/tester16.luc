@@ -90,7 +90,7 @@ module tester16 (
         alu.alufn = 6b011110;
         alu.a = 16b1010;
         alu.b = 16b1111;
-        if (alu.out == 16b1010){
+        if (alu.out == 16b1111){
           out = {4d0,4d5,4d1,4d1};
         }
         else {

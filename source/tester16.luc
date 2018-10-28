@@ -13,7 +13,7 @@ module tester16 (
   alu16 alu; // instantiate alu for checking logic of program against predefined assertions
 
   .clk(counter.q[CLKSPEED-1]){ //set fsm speed to counter
-    fsm state(.rst(rst)) = {ADD, ADD_OVR, SUB, SUB_OVR, AND, OR, XOR, A, SHL, SHR, SRA, CMPEQ, CMPLT, CMPLE, MULTIPLY, END}; // create states for testing each of the fsm.
+    fsm state(.rst(rst)) = {ADD, ADD_OVR, SUB, SUB_OVR, AND, OR, XOR, A, SHL, SHR, SRA, CMPEQ, CMPLT, CMPLE, MULTIPLY, MOD, END}; // create states for testing each of the fsm.
   }
 
   always {
@@ -236,6 +236,20 @@ module tester16 (
         }
         else {
             out = {4d1,4d5,4d0,4d0};   //if false
+        }
+        if(pause == 0){
+            state.d = state.MOD;
+        }
+
+      state.MOD:
+        alu.alufn = 6b000010;  //OPCODE for mod
+        alu.a = 16b0000000000000010; // 2 in decimal
+        alu.b = 16b0000000000000100;  // 4 in decimal
+        if (alu.out == 16b0000000000000100){  //2%4 = 2 and 2 in binary is 0000000000000010
+            out = {4d1,4d6,4d1,4d1};   //if true
+        }
+        else {
+            out = {4d1,4d6,4d0,4d0};   //if false
         }
         if(pause == 0){
             state.d = state.END;

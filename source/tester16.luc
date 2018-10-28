@@ -147,10 +147,10 @@ module tester16 (
         alu.a = 16b1010;
         alu.b = 16b1010;
         if (alu.out == 0){
-          out = {4d0,4d8,4d1,4d1};
+          out = {4d0,4d9,4d1,4d1};
         }
         else {
-          out = {4d0,4d8,4d0,4d0};
+          out = {4d0,4d9,4d0,4d0};
         }
         if(pause == 0){
           state.d = state.CMPLE;
@@ -161,10 +161,10 @@ module tester16 (
         alu.a = 16b1010;
         alu.b = 16b1010;
         if (alu.out == 1){
-          out = {4d0,4d9,4d1,4d1};
+          out = {4d1,4d0,4d1,4d1};
         }
         else {
-          out = {4d0,4d9,4d0,4d0};
+          out = {4d1,4d0,4d0,4d0};
         }
         if(pause == 0){
           state.d = state.SHL;
@@ -175,10 +175,10 @@ module tester16 (
         alu.a = 16b1010;
         alu.b = 16b11; // 3 in decimal
         if (alu.out == 16b1010000){
-          out = {4d1,4d0,4d1,4d1};
+          out = {4d1,4d1,4d1,4d1};
         }
         else {
-          out = {4d1,4d0,4d0,4d0};
+          out = {4d1,4d1,4d0,4d0};
         }
         if(pause == 0){
           state.d = state.SHR;
@@ -189,10 +189,10 @@ module tester16 (
         alu.a = 16b1010000;
         alu.b = 16b11; // 3 in decimal
         if (alu.out == 16b1010){
-          out = {4d1,4d1,4d1,4d1};
+          out = {4d1,4d2,4d1,4d1};
         }
         else {
-          out = {4d1,4d1,4d0,4d0};
+          out = {4d1,4d2,4d0,4d0};
         }
         if(pause == 0){
           state.d = state.SRA;
@@ -203,10 +203,10 @@ module tester16 (
         alu.a = 16b1000000000001000;
         alu.b = 16b11; // 3 in decimal
         if (alu.out == 16b1111000000000001){
-          out = {4d1,4d2,4d1,4d1};
+          out = {4d1,4d3,4d1,4d1};
         }
         else {
-          out = {4d1,4d2,4d0,4d0};
+          out = {4d1,4d3,4d0,4d0};
         }
         if(pause == 0){
           state.d = state.END;

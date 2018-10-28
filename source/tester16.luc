@@ -287,7 +287,7 @@ module tester16 (
         alu.alufn = 6b000011;  //OPCODE for MOD
         alu.a = 16b0000000000000010; // 2 in decimal
         alu.b = 16b0000000000000100;  // 4 in decimal
-        if (alu.out == 16b0000000000000100){  //2%4 = 2 and 2 in binary is 0000000000000010
+        if (alu.out == 16b0000000000000010){  //2%4 = 2 and 2 in binary is 0000000000000010
             out = {4d1,4d9,4d1,4d1};   //if true
         }
         else {

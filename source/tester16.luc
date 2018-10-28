@@ -28,7 +28,7 @@ module tester16 (
 
       //Check add
       state.ADD:
-        alu.alufn = 000000; // set proper alufn to input to alu
+        alu.alufn = 6b000000; // set proper alufn to input to alu
         alu.a = 16b1; // set a value for test
         alu.b = 16b11; // set b value for test
         if (alu.out == 16b100){ // assertion set correct value for output of a op b
@@ -42,7 +42,7 @@ module tester16 (
         }
 
       state.ADD_OVR:
-        alu.alufn = 000000; // set proper alufn to input to alu
+        alu.alufn = 6b000000; // set proper alufn to input to alu
         alu.a = 16b0100000000000000; // set a value for test
         alu.b = 16b0100000000000000; // set b value for test
         if (alu.v == 1){ // assertion set correct value for output of a op b
@@ -57,7 +57,7 @@ module tester16 (
 
 
       state.SUB:
-        alu.alufn = 000001;
+        alu.alufn = 6b000001;
         alu.a = 16b11;
         alu.b = 16b11;
 
@@ -73,7 +73,7 @@ module tester16 (
 
 
       state.AND:
-        alu.alufn = 011000;
+        alu.alufn = 6b011000;
         alu.a = 16b1;
         alu.b = 16b11;
         if (alu.out == 16b1){
@@ -87,7 +87,7 @@ module tester16 (
         }
 
       state.OR:
-        alu.alufn = 011110;
+        alu.alufn = 6b011110;
         alu.a = 16b1010;
         alu.b = 16b1111;
         if (alu.out == 16b1010){
@@ -101,21 +101,7 @@ module tester16 (
         }
 
       state.XOR:
-        alu.alufn = 010110;
-        alu.a = 16b1010;
-        alu.b = 16b1100;
-        if (alu.out == 16b0110){
-          out = {4d0,4d6,4d1,4d1};
-        }
-        else {
-          out = {4d0,4d6,4d0,4d0};
-        }
-        if(pause == 0){
-          state.d = state.XOR;
-        }
-
-      state.XOR:
-        alu.alufn = 010110;
+        alu.alufn = 6b010110;
         alu.a = 16b1010;
         alu.b = 16b1100;
         if (alu.out == 16b0110){
@@ -129,7 +115,7 @@ module tester16 (
         }
 
       state.A:
-        alu.alufn = 011010;
+        alu.alufn = 6b011010;
         alu.a = 16b1010;
         alu.b = 16b1100;
         if (alu.out == 16b1010){
@@ -143,7 +129,7 @@ module tester16 (
         }
 
       state.CMPEQ:
-        alu.alufn = 110010;
+        alu.alufn = 6b110010;
         alu.a = 16b1010;
         alu.b = 16b1010;
         if (alu.out == 1){
@@ -157,7 +143,7 @@ module tester16 (
         }
 
       state.CMPLT:
-        alu.alufn = 110100;
+        alu.alufn = 6b110100;
         alu.a = 16b1010;
         alu.b = 16b1010;
         if (alu.out == 0){
@@ -171,7 +157,7 @@ module tester16 (
         }
 
       state.CMPLE:
-        alu.alufn = 110110;
+        alu.alufn = 6b110110;
         alu.a = 16b1010;
         alu.b = 16b1010;
         if (alu.out == 1){
@@ -185,7 +171,7 @@ module tester16 (
         }
 
       state.SHL:
-        alu.alufn = 100000;
+        alu.alufn = 6b100000;
         alu.a = 16b1010;
         alu.b = 16b11; // 3 in decimal
         if (alu.out == 16b1010000){
@@ -199,7 +185,7 @@ module tester16 (
         }
 
       state.SHR:
-        alu.alufn = 100001;
+        alu.alufn = 6b100001;
         alu.a = 16b1010000;
         alu.b = 16b11; // 3 in decimal
         if (alu.out == 16b1010){
@@ -213,7 +199,7 @@ module tester16 (
         }
 
       state.SRA:
-        alu.alufn = 100011;
+        alu.alufn = 6b100011;
         alu.a = 16b1000000000001000;
         alu.b = 16b11; // 3 in decimal
         if (alu.out == 16b1111000000000001){
@@ -228,6 +214,9 @@ module tester16 (
 
       state.END:
         out = {4d9,4d9,4d9,4d9};
+        alu.a =0;
+        alu.b=0;
+        alu.alufn=0;
 
 
       default:

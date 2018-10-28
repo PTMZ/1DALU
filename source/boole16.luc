@@ -8,18 +8,27 @@ module boole16 (
   always {
     case(alufn[3:0])
     {
-      b1000: // and case
+      b1000: // AND case
         boole = a & b;
       
-      b1110: // or case
+      b1110: // OR case
         boole = a | b;
       
-      b0110: // xor case
+      b0110: // XOR case
         boole = a ^ b;
       
-      b1010: // a case
+      b1010: // LDR case
         boole = a;
-        
+
+      b0001:  //NOR case
+        boole = ~(a | b);
+
+      b0111:   //NAND case
+        boole = ~(a & b);
+
+      b1001:   //XNOR case
+        boole = ~(a ^ b);
+
       default:
         boole = 0;
   }

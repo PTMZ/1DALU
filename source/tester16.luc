@@ -2,6 +2,7 @@ module tester16 (
     input clk,
     input rst,
     input pause,
+    input restarttest,
     output out[4][4]
   ) {
 
@@ -217,6 +218,9 @@ module tester16 (
         alu.a =0;
         alu.b=0;
         alu.alufn=0;
+        // at end state use middle button to reset the test from the top
+        if (restarttest == 1) 
+          state.d = state.ADD;
 
 
       default:
